@@ -1,0 +1,265 @@
+var express = require('express');
+var router = express.Router();
+var model = require('../models');
+var _ = require('underscore');
+var json2csv = require('json2csv');
+var fs = require('fs');
+
+
+router.get('/api1', function (req, res, next) {
+
+    var json = {
+        "dataShape": { "fieldDefinitions": { "gen1min": { "name": "gen1min", "description": "",
+        "baseType": "NUMBER", "ordinal": 3, "aspects": {}
+    }, "gen15min": {
+
+        "name": "gen15min", "description": "MWh", "baseType": "NUMBER", "ordinal": 4, "aspects": {}
+
+    }, "meter": {
+
+        "name": "meter", "description": "", "baseType": "STRING", "ordinal": 1, "aspects": {}
+
+    }, "description": {
+
+        "name": "description", "description": "",
+        "baseType": "STRING", "ordinal": 2, "aspects": {}
+
+    }, "gen1day": {
+
+        "name": "gen1day", "description": "MWh", "baseType": "NUMBER", "ordinal": 6, "aspects": {}
+
+    }, "gen1dayDateTime": {
+
+        "name": "gen1dayDateTime", "description": "", "baseType": "DATETIME", "ordinal": 10,
+
+        "aspects": {} },
+
+
+
+
+        "gen1hrDateTime": { "name": "gen1hrDateTime", "description": "", "baseType": "DATETIME", "ordinal": 9,
+
+        "aspects": {} }, "gen1hr": {
+
+            "name": "gen1hr",
+            "description": "MWh", "baseType": "NUMBER", "ordinal": 5, "aspects": {}
+
+        }, "gen1minDateTime": {
+
+            "name": "gen1minDateTime", "description": "", "baseType": "DATETIME", "ordinal": 7,
+
+            "aspects": {} },
+
+            "gen15minDateTime": { "name": "gen15minDateTime", "description": "", "baseType": "DATETIME", "ordinal": 8,
+
+            "aspects": {}
+
+        }
+
+    }
+
+}, "rows": [
+
+    {
+
+        "gen1min": 0.035, "gen15min": 0.479, "meter": "PowerTrack0001",
+
+        "description": " Power Plant 6",
+        "gen1day": 48.831,
+
+        "gen1dayDateTime": 1481749209394,
+
+        "gen1hrDateTime": 1481803214036,
+
+        "gen1hr": 1.955,
+
+        "gen1minDateTime": 1481805190354,
+
+        "gen15minDateTime": 1481805004095
+
+    },
+
+    {
+
+        "gen1min": 0, "gen15min": 0,
+
+        "meter": "PowerTrack0002", "description": " Power Plant 2", "gen1day": 1325.3, "gen1dayDateTime": 1481749203592, "gen1hrDateTime": 1481803206433, "gen1hr": 0,
+
+        "gen1minDateTime": 1481805184584, "gen15minDateTime": 1481805005086 },
+
+        {
+
+            "gen1min": 0, "gen15min": 0,
+
+            "meter": "PowerTrack0003", "description": " Power Plant 3", "gen1day": 181.534, "gen1dayDateTime": 1481749205680, "gen1hrDateTime": 1481803206982,
+            "gen1hr": 0,
+
+            "gen1minDateTime": 1481805186300,
+
+            "gen15minDateTime": 1481805005739
+
+        },
+
+        {
+
+            "gen1min": 0.02, "gen15min": 0.323, "meter": "PowerTrack0004",
+
+            "description": " Power Plant 4", "gen1day": 0,
+
+            "gen1dayDateTime": 1481749204968, "gen1hrDateTime": 1481803202999, "gen1hr": 0,
+
+            "gen1minDateTime": 1481805182281, "gen15minDateTime": 1481805002638 },
+
+            {
+
+                "gen1min": 0.032, "gen15min": 0.372, "meter": "PowerTrack0005",
+
+                "description": " Power Plant 5", "gen1day": 0,
+
+                "gen1dayDateTime": 1481749242686, "gen1hrDateTime": 1481803202579, "gen1hr": 0,
+
+                "gen1minDateTime": 1481805181285, "gen15minDateTime": 1481805007190
+            },
+
+            {
+
+                "gen1min": 0, "gen15min": 0,
+
+                "meter": "PowerTrack0006", "description": "Power Plant 6", "gen1day": 208.677, "gen1dayDateTime": 1481749202764, "gen1hrDateTime": 1481803205677, "gen1hr": 0,
+
+                "gen1minDateTime": 1481805181933, "gen15minDateTime": 1481805001937
+
+            }
+
+        ]};
+
+        var fields = ['gen1min', 'gen15min', 'meter', 'description', 'gen1day', 'gen1dayDateTime', 'gen1hrDateTime', 'gen1hr', 'gen1minDateTime', 'gen15minDateTime'];
+
+        try {
+            var csv = json2csv({ data: json.rows, fields: fields });
+            fs.writeFile('file.csv', csv, function(err) {
+                if (err) throw err;
+                console.log('file saved');
+            });
+        } catch (err) {
+            console.error(err);
+        }
+
+        res.send(json);
+
+    });
+
+    router.get('/api2', function (req, res, next) {
+        var json = {
+
+            "dataShape": { "fieldDefinitions": { "receivedAt": { "name": "receivedAt", "description": "",
+
+            "baseType": "DATETIME", "ordinal": 2,
+
+            "aspects": {} }, "deviceName": {
+
+                "name": "deviceName", "description": "", "baseType": "STRING", "ordinal": 4, "aspects": {}
+
+            }, "energy": {
+
+                "name": "energy", "description": "", "baseType": "NUMBER", "ordinal": 3,
+                "aspects": { "units": "MWh"
+
+            }
+
+        }
+
+    }
+
+}, "rows": [
+
+    {
+
+        "receivedAt": 1477778404008,
+
+        "deviceName": "AutoGenerated Device PowerTrack0004", "energy": 0.024015622400000002
+
+    },
+
+    {
+
+        "receivedAt": 1477782005372,
+
+        "deviceName": "AutoGenerated Device PowerTrack0004", "energy": 0.0090058584
+
+    },
+
+    {
+
+        "receivedAt": 1477785605735,
+
+        "deviceName": "AutoGenerated Device PowerTrack0004", "energy": 0
+
+    },
+
+    {
+
+        "receivedAt": 1477789204335,
+
+        "deviceName": "AutoGenerated Device PowerTrack0004", "energy": 0
+
+    },
+    {
+
+        "receivedAt": 1477792804251,
+
+        "deviceName": "AutoGenerated Device PowerTrack0004", "energy": 0.0360234336
+
+    },
+
+    {
+
+        "receivedAt": 1477796402993,
+
+        "deviceName": "AutoGenerated Device PowerTrack0004", "energy": 0.1380898288
+
+    },
+
+    {
+
+        "receivedAt": 1477800003564,
+
+        "deviceName": "AutoGenerated Device PowerTrack0004", "energy": 0.0090058584
+
+    },
+
+    {
+
+        "receivedAt": 1477803604894,
+
+        "deviceName": "AutoGenerated Device PowerTrack0004", "energy": 0
+
+    },
+
+    {
+
+        "receivedAt": 1477807202793,
+
+        "deviceName": "AutoGenerated Device PowerTrack0004", "energy": 0
+
+    }
+
+]
+
+};
+
+var fields = ['receivedAt', 'deviceName', 'energy'];
+
+try {
+    var csv = json2csv({ data: json.rows, fields: fields });
+    fs.writeFile('powerplants.csv', csv, function(err) {
+        if (err) throw err;
+        console.log('file saved');
+    });
+} catch (err) {
+    console.error(err);
+}
+
+res.send(json);
+
+});
